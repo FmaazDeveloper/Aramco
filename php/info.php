@@ -16,14 +16,10 @@
           // select all info from all tables
           $select_data_info = $connect_database->prepare
           ('
-          SELECT i.personal_no , i.name , i.psg , i.score_psg , i.age_yrs , i.hire_date , i.service_years , i.perm_job_title , i.perm_div_cc_title , i.perm_dept_title , i.previous_exp , i.score_dept ,
-          c.days , c.score_days , 
-          h.hipo , h.score_hipo ,
-          p.pmp_2021 , p.pmp_2020 , p.pmp_2019 , p.score_pmp , p.avg_pmp ,
-          r.total , r.rank
+          SELECT *
           FROM info i , covering c , hipo h , pmp p , ranking r
           WHERE i.personal_no = c.personal_no and i.personal_no = h. personal_no and i.personal_no = p.personal_no and i.personal_no = r.personal_no
-          ORDER BY r.rank ASC
+          ORDER BY r.ranking ASC
           ');
           $select_data_info->execute();
           // print all info
@@ -52,7 +48,7 @@
                               <th> '.$print_info["perm_div_cc_title"].' </th> <th> '.$print_info["perm_dept_title"].' </th> <th> '.$print_info["score_dept"].' </th> <th> '.$print_info["previous_exp"].' </th>
                               <th> '.$print_info["days"].' </th> <th> '.$print_info["score_days"].' </th> <th> '.$print_info["hipo"].' </th> <th> '.$print_info["score_hipo"].' </th>
                               <th> '.$print_info["pmp_2021"].' </th> <th> '.$print_info["pmp_2020"].' </th> <th> '.$print_info["pmp_2019"].' </th> <th> '.$print_info["score_pmp"].' </th>
-                              <th> '.$print_info["avg_pmp"].' </th> <th> '.$print_info["total"].' </th> <th> '.$print_info["rank"].' </th>
+                              <th> '.$print_info["avg_pmp"].' </th> <th> '.$print_info["total"].' </th> <th> '.$print_info["ranking"].' </th>
                             </tr>
                       ';
           ?> 

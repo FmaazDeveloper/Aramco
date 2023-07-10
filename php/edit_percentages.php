@@ -235,10 +235,9 @@
             FROM info i , covering c ,hipo h , pmp p , ranking r
             WHERE i.personal_no = i.personal_no and c.personal_no = i.personal_no and h.personal_no = i.personal_no and
             p.personal_no = i.personal_no and r.personal_no = i.personal_no
-            ORDER BY i.total DESC
+            ORDER BY r.total DESC
             ');
             $select_data_info->execute();
-
             $x = 1;
             foreach($select_data_info as $print)
                   {
@@ -247,30 +246,23 @@
                     $_SESSION["score_psg"] = $print["score_psg"]; $_SESSION["service_years"] = $print["service_years"]; $_SESSION["score_dept"] = $print["score_dept"];
                     $_SESSION["score_days"] = $print["score_days"]; $_SESSION["score_hipo"] = $print["score_hipo"]; $_SESSION["score_pmp"] = $print["score_pmp"];
                     
-                    $_SESSION["total_scores"] = round((($_SESSION["score_psg"]/100)*$_SESSION["percent_psg"]) + (($_SESSION["score_dept"]/3)*$_SESSION["percent_dept"]) + 
-                    ($_SESSION["score_days"]*$_SESSION["percent_covering"]) + (($_SESSION["service_years"]/40)*$_SESSION["percent_service_years"]) + 
-                    (($_SESSION["score_hipo"]/15)*$_SESSION["percent_hipo"]) + (($_SESSION["score_pmp"]/15)*$_SESSION["percent_pmp"]),2);
+                    $_SESSION["total_scores"] = round((($_SESSION["score_psg"]/100)*$_SESSION["psg_percent"]) + (($_SESSION["score_dept"]/3)*$_SESSION["dept_percent"]) + 
+                    ($_SESSION["score_days"]*$_SESSION["days_percent"]) + (($_SESSION["service_years"]/40)*$_SESSION["service_years_percent"]) + 
+                    (($_SESSION["score_hipo"]/15)*$_SESSION["hipo_percent"]) + (($_SESSION["score_pmp"]/15)*$_SESSION["pmp_percent"]),2);
 
                     $update_total_info = $connect_database->prepare
-                    ('
-                    UPDATE info SET total = '.$_SESSION["total_scores"].' WHERE personal_no = '.$_SESSION["personal_no"].'
-                    ');
+                    ('UPDATE info SET total = '.$_SESSION["total_scores"].' WHERE personal_no = '.$_SESSION["personal_no"].'');
                     $update_total_info->execute();
 
                     $update_total_ranking = $connect_database->prepare
-                    ('
-                    UPDATE ranking SET total = '.$_SESSION["total_scores"].' WHERE personal_no = '.$_SESSION["personal_no"].'
-                    ');
+                    ('UPDATE ranking SET total = '.$_SESSION["total_scores"].' , ranking = '.$x.' WHERE personal_no = '.$_SESSION["personal_no"].'');
                     $update_total_ranking->execute();
-
-                    $update_emp_rank = $connect_database->prepare
-                    ('
-                    UPDATE ranking SET rank = '.($x).' WHERE personal_no = '.$_SESSION["personal_no"].'
-                    ');
-                    $update_emp_rank->execute();
                     $x++;
+                    // $update_emp_rank = $connect_database->prepare
+                    // ('UPDATE ranking SET rank = '.$select_data_info->rowCount().' WHERE personal_no = '.$_SESSION["personal_no"].'');
+                    // $update_emp_rank->execute();
                   }
-            if($update_percent && $update_total_info && $update_total_ranking && $update_emp_rank)
+            if($update_percent && $update_total_info && $update_total_ranking)
             {
               echo '
                     <center>

@@ -37,7 +37,7 @@
         // min rank
         if(isset($_POST["reset_data"]) || empty($_SESSION["min_rank"]))
         {
-          $min_rank = $connect_database->prepare('SELECT MIN(rank) min_rank FROM ranking');
+          $min_rank = $connect_database->prepare('SELECT MIN(`ranking`) min_rank FROM ranking');
           $min_rank->execute();
           foreach($min_rank as $print)
           $_SESSION["min_rank"] = $print['min_rank'];
@@ -45,7 +45,7 @@
         // max rank
         if(isset($_POST["reset_data"]) || empty($_SESSION["max_rank"]))
         {
-          $max_rank = $connect_database->prepare('SELECT MAX(rank) max_rank FROM ranking');
+          $max_rank = $connect_database->prepare('SELECT MAX(`ranking`) max_rank FROM ranking');
           $max_rank->execute();
           foreach($max_rank as $print)
           $_SESSION["max_rank"] = $print['max_rank'];
@@ -53,7 +53,7 @@
         // min service years
         if(isset($_POST["reset_data"]) || empty($_SESSION["min_service_years"]))
         {
-          $min_service_years = $connect_database->prepare('SELECT MIN(service_years) min_service_years FROM info');
+          $min_service_years = $connect_database->prepare('SELECT MIN("service_years") min_service_years FROM info');
           $min_service_years->execute();
           foreach($min_service_years as $print)
           $_SESSION["min_service_years"] = $print['min_service_years'];
@@ -61,7 +61,7 @@
         // max service years
         if(isset($_POST["reset_data"]) || empty($_SESSION["max_service_years"]))
         {
-          $max_service_years = $connect_database->prepare('SELECT MAX(service_years) max_service_years FROM info');
+          $max_service_years = $connect_database->prepare('SELECT MAX("service_years") max_service_years FROM info');
           $max_service_years->execute();
           foreach($max_service_years as $print)
           $_SESSION["max_service_years"] = $print['max_service_years'];
@@ -73,16 +73,16 @@
       {
         $count_emp = $connect_database->prepare
         ('
-        SELECT COUNT(i.personal_no) FROM info i , covering c , hipo h , pmp p , ranking r WHERE
+        SELECT COUNT("i.personal_no") count_emp FROM info i , covering c , hipo h , pmp p , ranking r WHERE
         i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
         i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
         i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-        p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+        p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
         ');
         $count_emp->execute();
         foreach($count_emp as $print)
                 {
-                  $_SESSION["count_emp"] = $print["COUNT(i.personal_no)"];
+                  $_SESSION["count_emp"] = $print["count_emp"];
                 }
       }
     ?>
@@ -111,7 +111,7 @@
                 i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
                 i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
                 i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-                p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+                p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
                 ORDER BY i.perm_job_title
                 ');
                 $select_perm_job_title->execute();
@@ -150,7 +150,7 @@
                         i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
                         i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
                         i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-                        p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+                        p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
                         ORDER BY p.avg_pmp DESC
                         ');
                         $select_avg_pmp->execute();
@@ -180,7 +180,7 @@
                             i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
                             i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
                             i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
                             ORDER BY i.psg DESC
                             ');
                             $select_psg->execute();
@@ -210,7 +210,7 @@
                             i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
                             i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
                             i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
                             ');
                             $select_min_service_years->execute();
                         foreach($select_min_service_years as $print)
@@ -228,7 +228,7 @@
                           i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
                           i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
                           i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-                          p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+                          p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
                           ');
                           $select_max_service_years->execute();
                         foreach($select_max_service_years as $print)
@@ -252,17 +252,17 @@
                         // range min rank
                             $select_min_rank = $connect_database->prepare
                             ('
-                            SELECT MIN(r.rank) rank FROM info i , covering c , pmp p , hipo h , ranking r WHERE
+                            SELECT MIN(r.ranking) min_rank FROM info i , covering c , pmp p , hipo h , ranking r WHERE
                             i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
                             i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
                             i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
                             ');
                             $select_min_rank->execute();
                             foreach($select_min_rank as $print)
                                     {
                                       echo '
-                                              <input type="number" name="min_rank" id="min_rank" class="form-control m-3" placeholder="Rank From : '.$print["rank"].'">
+                                              <input type="number" name="min_rank" id="min_rank" class="form-control m-3" placeholder="Rank From : '.$print["min_rank"].'">
                                       ';
                                       if(!empty($_POST["min_rank"]))
                                       $_SESSION["min_rank"] = $_POST["min_rank"];
@@ -270,17 +270,17 @@
                         // range max rank
                             $select_max_rank = $connect_database->prepare
                             ('
-                            SELECT MAX(r.rank) rank FROM info i , covering c , pmp p , hipo h , ranking r WHERE
+                            SELECT MAX(r.ranking) max_rank FROM info i , covering c , pmp p , hipo h , ranking r WHERE
                             i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
                             i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
                             i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+                            p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
                             ');
                             $select_max_rank->execute();
                             foreach($select_max_rank as $print)
                                     {
                                       echo '
-                                              <input type="number" name="max_rank" id="max_rank" class="form-control m-3" placeholder="Rank To : '.$print["rank"].'">
+                                              <input type="number" name="max_rank" id="max_rank" class="form-control m-3" placeholder="Rank To : '.$print["max_rank"].'">
                                       ';
                                       if(!empty($_POST["max_rank"]))
                                       $_SESSION["max_rank"] = $_POST["max_rank"];
@@ -325,7 +325,7 @@
               i.personal_no = i.personal_no AND c.personal_no = i.personal_no AND h.personal_no = i.personal_no AND p.personal_no = i.personal_no AND r.personal_no = i.personal_no AND
               i.personal_no '.$_SESSION["personal_no_filter"].' AND i.name '.$_SESSION["name_filter"].' AND i.psg '.$_SESSION["psg_filter"].' AND
               i.service_years BETWEEN '.$_SESSION["min_service_years"].' AND '.$_SESSION["max_service_years"].' AND h.hipo '.$_SESSION["hipo_filter"].' AND
-              p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.rank BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
+              p.avg_pmp '.$_SESSION["avg_pmp_filter"].' AND r.ranking BETWEEN '.$_SESSION["min_rank"].' AND '.$_SESSION["max_rank"].' AND i.perm_job_title '.$_SESSION["depts"].'
               ');
               $select_emp_info->execute();
               if($select_emp_info->rowCount()==1)
