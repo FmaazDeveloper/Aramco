@@ -45,7 +45,7 @@
                 c.days , c.score_days , 
                 h.hipo , h.score_hipo ,
                 p.pmp_2021 , p.pmp_2020 , p.pmp_2019 , p.score_pmp , p.avg_pmp ,
-                r.total , r.rank
+                r.total , r.ranking
                 from info i , covering c , hipo h , pmp p , ranking r
                 where i.personal_no = '. $_SESSION["delete_emp_info"] .' and i.personal_no = c.personal_no and i.personal_no = h. personal_no and i.personal_no = p.personal_no and i.personal_no = r.personal_no
                 ');
@@ -76,7 +76,7 @@
                                         <th> '.$print_info["perm_job_title"].' </th> <th> '.$print_info["perm_div_cc_title"].' </th> <th> '.$print_info["perm_dept_title"].' </th>
                                         <th> '.$print_info["previous_exp"].' </th> <th> '.$print_info["score_dept"].' </th> <th> '.$print_info["days"].' </th> <th> '.$print_info["score_days"].' </th>
                                         <th> '.$print_info["hipo"].' </th> <th> '.$print_info["score_hipo"].' </th> <th> '.$print_info["pmp_2021"].' </th> <th> '.$print_info["pmp_2020"].' </th>
-                                        <th> '.$print_info["pmp_2019"].' </th> <th> '.$print_info["score_pmp"].' </th> <th> '.$print_info["avg_pmp"].' </th> <th> '.$print_info["total"].' </th> <th> '.$print_info["rank"].' </th>
+                                        <th> '.$print_info["pmp_2019"].' </th> <th> '.$print_info["score_pmp"].' </th> <th> '.$print_info["avg_pmp"].' </th> <th> '.$print_info["total"].' </th> <th> '.$print_info["ranking"].' </th>
                                       </tr>
                                     </table>
                               ';
@@ -85,7 +85,7 @@
                               $_SESSION["perm_div_cc_title"] = $print_info["perm_div_cc_title"]; $_SESSION["perm_dept_title"] = $print_info["perm_dept_title"]; $_SESSION["previous_exp"] = $print_info["previous_exp"];
                               $_SESSION["score_dept"] = $print_info["score_dept"]; $_SESSION["days"] = $print_info["days"]; $_SESSION["score_days"] = $print_info["score_days"]; $_SESSION["hipo"] = $print_info["hipo"];
                               $_SESSION["score_hipo"] = $print_info["score_hipo"]; $_SESSION["pmp_2021"] = $print_info["pmp_2021"]; $_SESSION["pmp_2020"] = $print_info["pmp_2020"]; $_SESSION["pmp_2019"] = $print_info["pmp_2019"];
-                              $_SESSION["score_pmp"] = $print_info["score_pmp"]; $_SESSION["avg_pmp"] = $print_info["avg_pmp"]; $_SESSION["total"] = $print_info["total"]; $_SESSION["rank"] = $print_info["rank"]; 
+                              $_SESSION["score_pmp"] = $print_info["score_pmp"]; $_SESSION["avg_pmp"] = $print_info["avg_pmp"]; $_SESSION["total"] = $print_info["total"]; $_SESSION["rank"] = $print_info["ranking"]; 
                             }
                   }
                 else
@@ -163,7 +163,7 @@
                         $_SESSION["personal_no"] = $print["personal_no"];
                         $update_emp_rank = $connect_database->prepare
                         ('
-                        UPDATE ranking SET rank = '.($x).' WHERE personal_no = '.$_SESSION["personal_no"].'
+                        UPDATE ranking SET ranking = '.($x).' WHERE personal_no = '.$_SESSION["personal_no"].'
                         ');
                         $update_emp_rank->execute();
                         $x++;
